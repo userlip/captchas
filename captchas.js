@@ -17,15 +17,15 @@ const solve = async (arguments) => {
 
   const waitForCaptcha = async (sitekey, method) => {
     let key = method === 'hcaptcha' ? 'sitekey' : 'googlekey'
-    let api_url = `https://proxies.marindelija.com/web/cors.php?key=${api_key}&sitekey=${sitekey}`
+    let api_url = "https://proxies.marindelija.com/web/cors.php?url=" + encodeURI(`https://2captcha.com/in.php?header_acao=1&key=${api_key}&method=${method}&${key}=${sitekey}&json=1&pageurl=${document.location.href}`)
     let div = document.querySelector('[data-s]')
     if(div){
-      api_url += `&data-s=${div.getAttribute('data-s')}&location=${document.location.href}`
+      api_url += `&data-s=${div.getAttribute('data-s')}`
     }
 
     let {status, request} = await get(api_url)
     if(status) {
-      let result_url = `https://proxies.marindelija.com/web/cors.php?id=id=${request}`;
+      let result_url = "https://proxies.marindelija.com/web/cors.php?url=" + encodeURI(`https://2captcha.com/res.php?header_acao=1&key=${api_key}&action=get&id=${request}&json=1&soft_id=7996404`);
       await delay(20000)
 
       while(true){
